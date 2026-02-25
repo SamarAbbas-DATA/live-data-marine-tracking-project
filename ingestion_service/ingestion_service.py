@@ -2,8 +2,6 @@ import paho.mqtt.client as mqtt
 import json
 
 from prediction_engine import predict_position
-# Import the function we just made above
-# from prediction_engine import predict_position 
 
 def on_message(client, userdata, msg):
     payload = json.loads(msg.payload.decode("utf-8"))
@@ -25,4 +23,3 @@ def on_message(client, userdata, msg):
         
         print(f"SHIP: {mmsi} | NOW: ({lat}, {lon}) | PREDICTED: ({round(p_lat, 4)}, {round(p_lon, 4)})")
         
-        # TODO: Later, Person A will give you a DB connection to put this in 'ais_predictions'
