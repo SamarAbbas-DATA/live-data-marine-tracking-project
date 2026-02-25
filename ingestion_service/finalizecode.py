@@ -2,14 +2,13 @@ import paho.mqtt.client as mqtt
 import json
 import math
 
-# --- CONFIGURATION (Change these when Person A is ready) ---
 DB_MOCK_STORAGE = []
 
-# --- TRAJECTORY PREDICTION LOGIC (12p) ---
+# --- TRAJECTORY PREDICTION LOGIC ---
 
 
 def predict_position(lat, lon, cog, sog_knots, minutes_ahead):
-    if sog_knots < 0.5:  # Don't predict for stationary ships
+    if sog_knots < 0.5:  
         return lat, lon
 
     km_per_min = (sog_knots * 1.852) / 60
@@ -25,7 +24,7 @@ def predict_position(lat, lon, cog, sog_knots, minutes_ahead):
 
     return math.degrees(new_lat), math.degrees(new_lon)
 
-# --- DATA INGESTION & CLEANING (10p) ---
+# --- DATA INGESTION & CLEANING ---
 
 
 def on_message(client, userdata, msg):
@@ -50,10 +49,10 @@ def on_message(client, userdata, msg):
                 "cog": cog
             }
             print(f"Processed MMSI {mmsi}: Predicting movement via COG {cog}")
-            DB_MOCK_STORAGE.append(result)  # Placeholder for Person A's DB
+            DB_MOCK_STORAGE.append(result)  
 
     except Exception as e:
-        pass  # Handle corrupted JSON silently
+        pass  
 
 
 client = mqtt.Client()
