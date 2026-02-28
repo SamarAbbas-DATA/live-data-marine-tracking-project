@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AIS Vessel Dashboard (MVP)</title>
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand__title">AIS Vessel Dashboard</div>
+      <div class="brand__subtitle">MVP: positions • history • prediction</div>
+    </div>
+
+    <div class="status" id="status">
+      <span class="dot" id="statusDot"></span>
+      <span id="statusText">Idle</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="panel">
+      <section class="panel__section">
+        <h2>Connection</h2>
+
+        <label class="field">
+          <div class="field__label">API Base URL</div>
+          <input id="apiBase" type="text" value="http://localhost:8000" />
+        </label>
+
+        <div class="row">
+          <label class="check">
+            <input id="mockMode" type="checkbox" checked />
+            <span>Mock mode (no backend needed)</span>
+          </label>
+        </div>
+
+        <div class="row">
+          <button id="btnRefresh">Refresh now</button>
+
+          <label class="field field--inline">
+            <div class="field__label">Poll (sec)</div>
+            <input id="pollSec" type="number" min="10" step="10" value="60" />
+          </label>
+
+          <button id="btnTogglePolling">Start polling</button>
+        </div>
+
+        <div class="hint">
+          Tip: Digitraffic AIS updates ~1 min, so polling &lt; 60s usually repeats the same data.
+        </div>
+      </section>
+
+      <section class="panel__section">
+        <h2>Vessels</h2>
+        <div class="row">
+          <input id="search" type="text" placeholder="Search MMSI..." />
+          <button id="btnClear">Clear</button>
+        </div>
+
+        <div class="list" id="vesselList"></div>
+
+        <div class="hint">
+          Click a vessel to focus. The map will show latest position, history, and prediction (if available).
+        </div>
+      </section>
+
+      <section class="panel__section">
+        <h2>Selected Vessel</h2>
+        <div class="kv">
+          <div class="kv__k">MMSI</div><div class="kv__v" id="selMmsi">-</div>
+          <div class="kv__k">Last update</div><div class="kv__v" id="selTime">-</div>
+          <div class="kv__k">Speed (SOG)</div><div class="kv__v" id="selSog">-</div>
+          <div class="kv__k">Course (COG)</div><div class="kv__v" id="selCog">-</div>
+        </div>
+
+        <div class="row row--stack">
+          <label class="field">
+            <div class="field__label">History window (minutes)</div>
+            <input id="historyMin" type="number" min="5" step="5" value="30" />
+          </label>
+
+          <label class="field">
+            <div class="field__label">Prediction horizon (minutes)</div>
+            <input id="horizonMin" type="number" min="1" step="1" value="10" />
+          </label>
+
+          <label class="field">
+            <div class="field__label">Prediction step (seconds)</div>
+            <input id="stepSec" type="number" min="10" step="10" value="60" />
+          </label>
+
+          <button id="btnLoadSelected">Load selected (history + prediction)</button>
+        </div>
+      </section>
+
+      <section class="panel__section">
+        <h2>Legend</h2>
+        <div class="legend">
+          <div class="legend__item"><span class="swatch swatch--latest"></span> Latest position</div>
+          <div class="legend__item"><span class="swatch swatch--history"></span> History track</div>
+          <div class="legend__item"><span class="swatch swatch--pred"></span> Predicted route</div>
+        </div>
+      </section>
+    </aside>
+
+    <section class="mapwrap">
+      <div id="map"></div>
+      <div class="toast" id="toast"></div>
+    </section>
+  </main>
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+
+  <script src="./index.js"></script>
+</body>
+</html>
