@@ -173,4 +173,4 @@ Open [index.html](index.html) in your browser (double-click it, or serve the fol
 
 ## Team
 
-Group 14 — Data Engineering Project 2026, Turku University of Applied Sciences.
+Samar Abbas (group 14) — Data Engineering Project 2026, Turku University of Applied Sciences.
